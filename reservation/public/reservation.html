@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予約システム</title>
+    <script src="./reservation.js" defer></script>
+</head>
+<body>
+    <h1>予約システム</h1>
+    <form id="create-form">
+        <label for="name">名前:</label>
+        <input type="text" id="name" required><br>
+        <label for="date">日付:</label>
+        <input type="date" id="date" required><br>
+        <label for="place">場所:</label><br>
+        <input type="radio" name="place" id="place1">
+        <label for="place1">会議室１</label><br>
+        <input type="radio" name="place" id="place2">
+        <label for="place2">会議室２</label><br>
+        <input type="radio" name="place" id="place3">
+        <label for="place3">ラウンジ</label><br>
+        <button type="submit">予約作成</button>
+    </form>
+    <div>
+        <h2>予約状況</h2>
+        <div id="schedule"></div>
+    </div>    
+</body>
+</html>
+

@@ -1,0 +1,152 @@
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+
+\usepackage[uplatex,deluxe]{otf} % UTF
+\usepackage[noalphabet]{pxchfon} % must be after otf package
+\usepackage{stix2} %欧文＆数式フォント
+\usepackage[fleqn,tbtags]{mathtools} % 数式関連 (w/ amsmath)
+\usepackage{hira-stix} % ヒラギノフォント＆STIX2 フォント代替定義（Warning回避）
+\usepackage{url}
+
+\begin{document}
+
+\title{部屋予約システム}
+\author{24G1065 佐藤勇太}
+\date{\today}
+\maketitle
+
+\section{プログラム本体}
+
+
+\section{利用者向け仕様書}
+
+\subsection{概要}
+本システムは，会議室やラウンジの予約をオンラインで簡単に管理できるウェブアプリケーションである．
+利用者は，場所や日付を選んで簡単に予約を作成することができる．
+また，現在の予約状況もリアルタイムで確認することができる．
+
+\subsection{主な機能}
+1つ目は予約作成機能である．
+利用者は，名前, 予約日, 場所（会議室１, 会議室２, ラウンジ）を選択して予約を作成できる．
+2つ目は予約状況の表示である．
+システムには，すべての予約が一覧表示され，利用者は現在の予約状況を確認できる．
+
+\subsection{操作手順}
+\begin{itemize}
+    \item 予約作成
+    \begin{itemize}
+        \item 名前を入力する．
+        \item 予約する日付を選択する．
+        \item 予約する場所（会議室１, 会議室２, ラウンジ）を選択する．
+        \item 「予約作成」ボタンを押して予約を確定する．
+    \end{itemize}
+    \item 予約状況の確認
+    \begin{itemize}
+        \item システムにアクセスすると，現在の予約状況が画面に表示される．
+    \end{itemize}
+\end{itemize}
+
+\subsection{制限事項}
+予約は一度に１つの場所に対して作成できる．
+また，必要な情報｛名前, 日付, 場所｝がすべて正しく入力されている必要がある．
+
+
+
+\section{管理者向け仕様書}
+
+\subsection{概要}
+本システムでは，管理者がすべての予約情報を確認することができ，システム全体の監視が可能である．
+管理者は，利用者が作成した予約を閲覧することができ，予約状況を適切に把握できる．
+
+\subsection{主な機能}
+１つ目は予約一覧の取得である．
+管理者は，システム上のすべての予約を確認できる．
+２つ目は各予約の詳細（名前, 日付, 場所）を閲覧することができる．
+
+\subsection{操作手順}
+
+\begin{itemize}
+    \item 予約状況の確認
+    \begin{itemize}
+        \item 管理者はシステムにアクセスして予約一覧を表示できる．
+        \item 一覧には，予約された場所，日付，名前の情報が表示される．
+    \end{itemize}
+\end{itemize}
+
+\subsection{制限事項}
+管理者は，システム内で予約の追加や削除などの管理機能を持たない（本システムには実装されていない）．
+
+
+
+\section{開発者向け仕様書}
+
+\subsection{概要}
+本システムは，Node.jsとExpressを用いたウェブアプリケーションである．
+バックエンドはシンプルなメモリ内データベース（配列）を使用して予約情報を管理している．
+フロントエンドはHTML、CSS、JavaScriptで構成され，ユーザーとのインタラクションを処理する．
+
+\subsection{システム構成}
+\begin{itemize}
+    \item バックエンド(app.js)
+    \begin{itemize}
+        \item Expressを使用してHTTPリクエストを処理する．
+        \item /create： 予約作成用のPOSTリクエストを受け付ける．
+        \item /list： 予約の一覧のGETリクエストで取得する．
+        \item /view/:id： 指定されたIDの予約情報をGETリクエストで取得する．
+    \end{itemize}
+    \item フロントエンド
+    \begin{itemize}
+        \item HTML(resevation.html)
+        \begin{itemize}
+            \item ユーザーが入力するフォームと予約状況を表示するエリアが含まれている．
+        \end{itemize}
+        \item JavaScript(resevation.js)
+        \begin{itemize}
+            \item 予約フォームの送信処理を担当し，予約情報をサーバーに送信する．
+            \item 予約状況をサーバーから取得し，画面に表示する．
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection{サーバー設定}
+
+\subsubsection{使用ライブラリ}
+本システムでは，以下のライブラリを使用している：
+\begin{itemize}
+    \item Express（Webサーバー）
+    \item EJS（テンプレートエンジン）
+\end{itemize}
+
+サーバーはポート8080で稼働し，以下のエンドポイントを提供する：
+\begin{itemize}
+    \item \texttt{/create}：予約を作成するPOSTエンドポイント
+    \item \texttt{/list}：予約の一覧を返すGETエンドポイント
+    \item \texttt{/view/\{id\}}：指定されたIDの予約を取得するGETエンドポイント
+\end{itemize}
+
+\subsubsection{開発環境}
+本システムを動作させるためには，Node.js と npm をインストールする必要がある．
+必要なパッケージは以下の通りである：
+\begin{itemize}
+    \item \texttt{express}
+    \item \texttt{ejs}
+\end{itemize}
+
+\subsubsection{動作手順}
+以下の手順でシステムをセットアップする：
+
+\begin{enumerate}
+    \item 必要なライブラリをインストールする：
+    \begin{verbatim}
+    npm install express ejs
+    \end{verbatim}
+    \item サーバーを起動する：
+    \begin{verbatim}
+    node app.js
+    \end{verbatim}
+    \item サーバーが稼働すると，\texttt{http://localhost:8080} でアプリケーションを確認できる．
+\end{enumerate}
+
+\subsubsection{データの保存}
+現在の実装では，予約データはサーバーのメモリ上の配列（\texttt{reservations}）に保存される．
+これは永続化されないため，サーバーを再起動するとデータは失われる．
+
